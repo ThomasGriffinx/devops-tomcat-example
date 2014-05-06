@@ -73,9 +73,10 @@ files:
 EBHOOKS
 
 # make the WAR
-jar -cvf example.war example
+APPVERSION=$(date +%s)
+jar -cvf "${APPVERSION}.war" example
 
 # version string
 if [ $? ]; then
-  echo "Version: $(date +%s)"
+  echo "Version: ${APPVERSION}"
 fi
