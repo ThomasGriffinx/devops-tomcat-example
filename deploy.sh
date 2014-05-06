@@ -19,8 +19,6 @@ cd $(dirname "${BASH_SOURCE[0]}")
 EXTDIR='example/.ebextensions'
 SYNC_LOGFILE='/var/log/sync-logs'
 
-VERBOSE="true"
-
 # log if desired
 if [ -z "${VERBOSE}" ]; then
   LOGCMD=''
