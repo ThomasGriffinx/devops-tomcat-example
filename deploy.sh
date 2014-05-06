@@ -6,11 +6,17 @@
 # 2. The `jar` executable in your path.
 # 3. The following environment variables exported in your shell:
 #    $GITHUB_API_TOKEN  : GitHub API token (cf. https://github.com/blog/1270-easier-builds-and-deployments-using-git-over-https-and-oauth)
+#    $MAILTO            : user or email address to receive cron errors
 
 # test for environment
 if [[ -z $GITHUB_API_TOKEN ]]; then
   echo 'No value found for $GITHUB_API_TOKEN!'
   exit 1
+fi
+
+# set a default MAILTO
+if [[ -z $MAILTO ]]; then
+  MAILTO='root'
 fi
 
 # write the EB extension
@@ -56,7 +62,7 @@ commands:
     command: "git pull https://${GITHUB_API_TOKEN}:x-oauth-basic@github.com/FitnessKeeper/mean-bean-s3log-machine.git ${LOGCMD}"
     cwd: "/opt/mean-bean-s3log-machine"
   05apply:
-    command: "puppet apply --modulepath=. -e 'include mean-bean-s3log-machine' ${LOGCMD}"
+    command: "puppet apply --modulepath=. -e 'class { \"mean-bean-s3log-machine\": mailto => \"${MAILTO}\"' ${LOGCMD}"
     cwd: "/opt"
 EBMEANBEAN
 
