@@ -26,6 +26,7 @@ packages:
   yum:
     git: []
     puppet: []
+    util-linux-ng: []
   python:
     awscli: []
     boto-rsync: []
