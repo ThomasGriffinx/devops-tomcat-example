@@ -73,6 +73,7 @@ files:
 EBHOOKS
 
 # make the WAR
+rm -f *.war
 APPVERSION=$(date +%s)
 jar -cvf "${APPVERSION}.war" example
 
