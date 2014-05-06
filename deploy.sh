@@ -55,17 +55,17 @@ EBMEANBEAN
 cat > "${EXTDIR}/03hooks.config" <<EBHOOKS
 ---
 files:
-  "/opt/beanstalk/hooks/appdeploy/pre/10sync-logs":
+  "/opt/elasticbeanstalk/hooks/appdeploy/pre/10sync-logs":
     mode: "000755"
     content: |
       #!/bin/bash
       /opt/sync-logs.sh >/dev/null 2>&1
-  "/opt/beanstalk/hooks/configdeploy/pre/10sync-logs":
+  "/opt/elasticbeanstalk/hooks/configdeploy/pre/10sync-logs":
     mode: "000755"
     content: |
       #!/bin/bash
       /opt/sync-logs.sh >/dev/null 2>&1
-  "/opt/beanstalk/hooks/restartappserver/pre/10sync-logs":
+  "/opt/elasticbeanstalk/hooks/restartappserver/pre/10sync-logs":
     mode: "000755"
     content: |
       #!/bin/bash
