@@ -62,7 +62,7 @@ commands:
     command: "git pull https://${GITHUB_API_TOKEN}:x-oauth-basic@github.com/FitnessKeeper/mean-bean-s3log-machine.git ${LOGCMD}"
     cwd: "/opt/mean-bean-s3log-machine"
   05apply:
-    command: "puppet apply --modulepath=. -e 'class { \"mean-bean-s3log-machine\": mailto => \"${MAILTO}\"' ${LOGCMD}"
+    command: "puppet apply --verbose --modulepath=. -e 'class { \"mean-bean-s3log-machine\": mailto => \"${MAILTO}\" }' ${LOGCMD}"
     cwd: "/opt"
 EBMEANBEAN
 
