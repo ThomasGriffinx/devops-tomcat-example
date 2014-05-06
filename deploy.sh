@@ -48,8 +48,8 @@ commands:
     command: "git pull https://${GITHUB_API_TOKEN}:x-oauth-basic@github.com/FitnessKeeper/mean-bean-s3log-machine.git"
     cwd: "/opt/mean-bean-s3log-machine"
   05apply:
-    command: "puppet apply --modulepath=./modules manifests/default.pp"
-    cwd: "/opt/mean-bean-s3log-machine"
+    command: "puppet apply --modulepath=. -e 'include mean-bean-s3log-machine'"
+    cwd: "/opt"
 EBMEANBEAN
 
 cat > "${EXTDIR}/03hooks.config" <<EBHOOKS
