@@ -17,6 +17,16 @@ fi
 cd $(dirname "${BASH_SOURCE[0]}")
 
 EXTDIR='example/.ebextensions'
+SYNC_LOGFILE='/var/log/sync-logs'
+
+VERBOSE="true"
+
+# log if desired
+if [ -z "${VERBOSE}" ]; then
+  LOGCMD=''
+else
+  LOGCMD=">> ${SYNC_LOGFILE} 2>&1"
+fi
 
 mkdir -p $EXTDIR
 
@@ -36,19 +46,19 @@ cat > "${EXTDIR}/02mean_bean.config" <<EBMEANBEAN
 ---
 commands:
   01rmdir:
-    command: "rm -rf /opt/mean-bean-s3log-machine"
+    command: "rm -rf /opt/mean-bean-s3log-machine ${LOGCMD}"
     cwd: "/opt"
   02mkdir:
-    command: "mkdir -p /opt/mean-bean-s3log-machine"
+    command: "mkdir -p /opt/mean-bean-s3log-machine ${LOGCMD}"
     cwd: "/opt"
   03init:
-    command: "git init"
+    command: "git init ${LOGCMD}"
     cwd: "/opt/mean-bean-s3log-machine"
   04pull:
-    command: "git pull https://${GITHUB_API_TOKEN}:x-oauth-basic@github.com/FitnessKeeper/mean-bean-s3log-machine.git"
+    command: "git pull https://${GITHUB_API_TOKEN}:x-oauth-basic@github.com/FitnessKeeper/mean-bean-s3log-machine.git ${LOGCMD}"
     cwd: "/opt/mean-bean-s3log-machine"
   05apply:
-    command: "puppet apply --modulepath=. -e 'include mean-bean-s3log-machine'"
+    command: "puppet apply --modulepath=. -e 'include mean-bean-s3log-machine' ${LOGCMD}"
     cwd: "/opt"
 EBMEANBEAN
 
@@ -59,17 +69,17 @@ files:
     mode: "000755"
     content: |
       #!/bin/bash
-      /opt/sync-logs.sh >/dev/null 2>&1
+      /opt/sync-logs.sh ${LOGCMD}
   "/opt/elasticbeanstalk/hooks/configdeploy/pre/10sync-logs":
     mode: "000755"
     content: |
       #!/bin/bash
-      /opt/sync-logs.sh >/dev/null 2>&1
+      /opt/sync-logs.sh ${LOGCMD}
   "/opt/elasticbeanstalk/hooks/restartappserver/pre/10sync-logs":
     mode: "000755"
     content: |
       #!/bin/bash
-      /opt/sync-logs.sh >/dev/null 2>&1
+      /opt/sync-logs.sh ${LOGCMD}
 EBHOOKS
 
 # make the WAR
